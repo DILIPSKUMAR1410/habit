@@ -16,15 +16,12 @@ import actvityView from './activity-view/activity-view';
 
 const routing = (
     <Router>
-      <div>
         <Route exact path="/" component={Home} />
         <Route exact path="/createActivity" component={Create} />
         <Route path="/intro" component={Intro} />
         <Route path="/addActvity" component={AddActivity} />
         <Route path="/myList" component={myList} />
         <Route path="/activityView" component={actvityView}/>
-
-      </div>
     </Router>
 )
 
