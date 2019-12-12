@@ -10,14 +10,21 @@ class myList extends React.Component {
         super(props);
         let habits = localStorage.getItem('habits');
         habits = JSON.parse(habits);
-        console.log(habits);
-        this.state={
+        this.state = {
             habits: habits
         };
-        console.log(this.state.habits);
         this.handleRedirect = this.handleRedirect.bind(this);
+        this.handleChange = this.handleChange.bind(this);
         this.updateModal = this.updateModal.bind(this);
         this.deleteHabit = this.deleteHabit.bind(this);
+        this.updateHabit = this.updateHabit.bind(this);
+
+    }
+
+    handleChange(event) {
+
+
+        this.setState({ updateHrs: event.target.value });
     }
 
     handleRedirect(event) {
@@ -49,17 +56,16 @@ class myList extends React.Component {
         return newDate;
     }
     componentDidMount() {
-      
+
         var elems = document.querySelectorAll('.modal');
         var instances = M.Modal.init(elems);
     }
 
     updateModal(event) {
-        this.setState({ deleteUpdateItem:event.target.id});
+        this.setState({ deleteUpdateItem: event.target.id });
     }
 
     deleteHabit() {
-        console.log('here');
         let deleteUpdateItem = this.state.deleteUpdateItem;
         let habits = this.state.habits;
         let filterHabit = habits.filter(habit => {
@@ -69,8 +75,31 @@ class myList extends React.Component {
         this.setState({
             habits: filterHabit
         });
-        filterHabit=JSON.stringify(filterHabit);
-        localStorage.setItem('habits',filterHabit);
+        filterHabit = JSON.stringify(filterHabit);
+        localStorage.setItem('habits', filterHabit);
+
+    }
+
+    updateHabit() {
+
+        let deleteUpdateItem = this.state.deleteUpdateItem;
+        let habits = localStorage.getItem('habits');
+        habits=JSON.parse(habits);
+        let updateHabit = habits.map(habit => {
+            if (habit.habitName === deleteUpdateItem) {
+                let habitUpdateHrs = parseInt(habit.updateHrs);
+                let updateHrs = parseInt(this.state.updateHrs);
+                habit.updateHrs = habitUpdateHrs + updateHrs;
+                
+            }
+            return habit;
+        })
+        this.setState({
+            habits: updateHabit
+        });
+        updateHabit = JSON.stringify(updateHabit);
+        localStorage.setItem('habits', updateHabit);
+
 
     }
     myList = () => {
@@ -81,15 +110,15 @@ class myList extends React.Component {
 
         let list = [];
 
-       
-            this.state.habits.forEach(habit => {
-                list.push(<li class="collection-item">
-                    <span onClick={this.handleRedirect} id={habit.habitName}>  {habit.habitName}</span> <span style={updateDeleteCss}><a id={habit.habitName} class="center waves-effect waves-light btn-small modal-trigger blue darken-3" onClick={this.updateModal} href="#delete">Delete</a></span>
-                    <span style={updateDeleteCss}><a class="center waves-effect waves-light btn-small modal-trigger blue darken-3" id={habit.habitName} onClick={this.updateModal} href="#update">Update</a></span>
-                </li>)
 
-            })
-        
+        this.state.habits.forEach(habit => {
+            list.push(<li class="collection-item">
+                <span onClick={this.handleRedirect} id={habit.habitName}>  {habit.habitName}</span> <span style={updateDeleteCss}><a id={habit.habitName} class="center waves-effect waves-light btn-small modal-trigger blue darken-3" onClick={this.updateModal} href="#delete">Delete</a></span>
+                <span style={updateDeleteCss}><a class="center waves-effect waves-light btn-small modal-trigger blue darken-3" id={habit.habitName} onClick={this.updateModal} href="#update">Update</a></span>
+            </li>)
+
+        })
+
         return list;
 
     }
@@ -119,19 +148,19 @@ class myList extends React.Component {
                     <div class="modal-content">
 
 
-                        <input placeholder="In hours" id="task_time" type="number" class="validate" />
+                        <input placeholder="In hours" id="task_time" type="number" class="validate" onChange={this.handleChange} />
                         <label for="task_time">Enter the number of hours you have performed the task today?</label>
 
                     </div>
                     <div class="modal-footer">
-                        <a href="#!" class="modal-close waves-effect waves-light  btn-flat">Update</a>
+                        <a href="#!" class="modal-close waves-effect waves-light  btn-flat" onClick={this.updateHabit}>Update</a>
                     </div>
                 </div>
 
                 <div id="delete" class="modal">
                     <div class="modal-content">
 
-                        Are you sure, you want to delete Learn Bowling? You
+                        Are you sure, you want to delete learn-{this.state.deleteUpdateItem} 
                     </div>
                     <div class="modal-footer">
                         <a href="#!" onClick={this.deleteHabit} class="modal-close waves-effect waves-light  btn-flat">Delete</a>

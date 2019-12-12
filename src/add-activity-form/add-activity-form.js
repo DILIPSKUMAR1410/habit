@@ -1,55 +1,59 @@
 import React from 'react';
 import Header from '../common/header-page';
 import M from 'materialize-css';
-import { withRouter ,Link } from "react-router-dom";
+import { withRouter, Link } from "react-router-dom";
 
 
 
 class AddActivity extends React.Component {
     constructor(props) {
         super(props);
-        this.state = {habitName: '',
-                       question:'',
-                        noOfHrs:'',
-                    freequency:'' ,
-                    updatedChecked:false
-                    };
-    
+        this.state = {
+            habitName: '',
+            question: '',
+            noOfHrs: '',
+            freequency: '',
+            startDate:new Date(),
+            endDate:'',
+            updateHrs:0
+        };
+
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
-      }
-    
-componentDidMount(){
-    var elems = document.querySelectorAll('select');
-    var instances = M.FormSelect.init(elems);
+    }
 
-}
+    componentDidMount() {
+        var elems = document.querySelectorAll('select');
+        var instances = M.FormSelect.init(elems);
 
-        handleChange(event) {
+    }
 
-          
-            this.setState({[event.target.id]:event.target.value});
-          }
-        
-          handleSubmit(event) {
-            console.log(this.state);
-            let habits=localStorage.getItem('habits')
-            if (habits){
-                habits=JSON.parse(habits);
-                habits.push(this.state);
+    handleChange(event) {
 
-            }
-            else{
-                habits=[];
-                habits.push(this.state);
 
-            }
-            localStorage.setItem('habits',JSON.stringify(habits));
-            this.props.history.push("/myList");
-             
-              
-           
-          }
+        this.setState({ [event.target.id]: event.target.value });
+    }
+
+    handleSubmit(event) {
+        console.log(this.state);
+        let habits = localStorage.getItem('habits')
+        if (habits) {
+            habits = JSON.parse(habits);
+            habits.push(this.state);
+
+        }
+        else {
+            habits = [];
+            habits.push(this.state);
+
+        }
+        console.log(habits)
+        localStorage.setItem('habits', JSON.stringify(habits));
+        this.props.history.push("/myList");
+
+
+
+    }
     render() {
         const textCss = {
             fontSize: "1rem",
@@ -64,7 +68,7 @@ componentDidMount(){
                             <form onSubmit={this.handleSubmit} class="col s12">
                                 <div class="row">
                                     <div class="input-field col s4">
-                                        <input placeholder="Habit name" id="habitName" type="text"  value={this.state.habitName} onChange={this.handleChange} class="validate" />
+                                        <input placeholder="Habit name" id="habitName" type="text" value={this.state.habitName} onChange={this.handleChange} class="validate" />
                                         <label for="habitName">Habit Name</label>
                                     </div>
                                     <div class="input-field col s8">
@@ -78,7 +82,7 @@ componentDidMount(){
                                         <label for="noOfHrs">No of Hrs</label>
                                     </div>
                                     <div class="input-field col s6">
-                                        <select value={this.state.freequency} id='freequency'onChange={this.handleChange}>
+                                        <select value={this.state.freequency} id='freequency' onChange={this.handleChange}>
                                             <option value="" disabled selected>Choose your option</option>
                                             <option value="Every day">Every day</option>
                                             <option value="Every week">Every week</option>
@@ -87,12 +91,18 @@ componentDidMount(){
                                         <label>Freequency</label>
                                     </div>
                                 </div>
+                                <div class="row">
+                                    <div class="input-field col s6">
+                                        <input placeholder="End date" id="endDate" type="date" value={this.state.endDate} onChange={this.handleChange} class="validate" />
+                                        <label for="endDate">End date</label>
+                                    </div>
+                                </div>
                                 <div class="row center">
                                     <div class="col s6">
                                         <Link to="/createActivity">  <a class="center waves-effect waves-light btn-small blue darken-3" >Discard</a></Link>
                                     </div>
                                     <div class="col s6">
-                                    <input to="/myList" class="center waves-effect waves-light btn-small blue darken-3" type="submit" value="Save" />
+                                        <input to="/myList" class="center waves-effect waves-light btn-small blue darken-3" type="submit" value="Save" />
                                     </div>
                                 </div>
                             </form>
