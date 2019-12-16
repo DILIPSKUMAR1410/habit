@@ -57,10 +57,15 @@ class AddActivity extends React.Component {
     render() {
         const textCss = {
             fontSize: "1rem",
-            color: '#1565c0'
         }
+        const buttonCss={
+            fontFamily:" 'Varela Round', sans-serif",
+            color:'#cc0000',
+            background:"transparent",
+            border:"1px solid black"
+          }
         return (
-            <div><Header />
+            <div>
                 <div class="container center" style={textCss}>
                     <div class="section">
                         New Habit
@@ -99,10 +104,10 @@ class AddActivity extends React.Component {
                                 </div>
                                 <div class="row center">
                                     <div class="col s6">
-                                        <Link to="/createActivity">  <a class="center waves-effect waves-light btn-small blue darken-3" >Discard</a></Link>
+                                        <Link to="/createActivity">  <button class="center " style={buttonCss} >Discard</button></Link>
                                     </div>
                                     <div class="col s6">
-                                        <input to="/myList" class="center waves-effect waves-light btn-small blue darken-3" type="submit" value="Save" />
+                                        <button to="/myList" style={buttonCss} class="center " type="submit" value="Save" >Save</button>
                                     </div>
                                 </div>
                             </form>

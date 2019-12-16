@@ -7,13 +7,13 @@ class Create extends React.Component {
     render() {
         const textCss = {
             fontSize: "1rem",
-            color: '#1565c0'
+           
         }
         const paddingTop = {
             paddingTop: "15%"
         }
         return (
-            <div><Header />
+            <div>
                 <div class="container center" style={textCss}>
                     
                 <div class="row" style={paddingTop}>

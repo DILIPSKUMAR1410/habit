@@ -107,14 +107,26 @@ class myList extends React.Component {
             float: "right",
             paddingLeft: "0.5rem",
         }
-
+        const buttonCss={
+            fontFamily:" 'Varela Round', sans-serif",
+            color:'#cc0000',
+            backgroundColor:"transparant",
+           
+          }
+          const myListCss={
+            backgroundColor:"transparent"
+          }
         let list = [];
 
 
         this.state.habits.forEach(habit => {
-            list.push(<li class="collection-item">
-                <span onClick={this.handleRedirect} id={habit.habitName}>  {habit.habitName}</span> <span style={updateDeleteCss}><a id={habit.habitName} class="center waves-effect waves-light btn-small modal-trigger blue darken-3" onClick={this.updateModal} href="#delete">Delete</a></span>
-                <span style={updateDeleteCss}><a class="center waves-effect waves-light btn-small modal-trigger blue darken-3" id={habit.habitName} onClick={this.updateModal} href="#update">Update</a></span>
+            list.push(<li style={myListCss} class="collection-item">
+                <span onClick={this.handleRedirect} id={habit.habitName}>  {habit.habitName}</span> <span style={updateDeleteCss}><a id={habit.habitName} style={buttonCss} class="center modal-trigger " onClick={this.updateModal} href="#delete"><i id={habit.habitName} class="material-icons">
+delete
+</i></a></span>
+                <span style={updateDeleteCss}><a class="center modal-trigger" style={buttonCss} id={habit.habitName} onClick={this.updateModal} href="#update"><i id={habit.habitName} class="material-icons">
+cached
+</i></a></span>
             </li>)
 
         })
@@ -125,14 +137,16 @@ class myList extends React.Component {
     render() {
         const textCss = {
             fontSize: "1rem",
-            color: '#1565c0'
+        }
+        const myListCss={
+            fontSize:"2rem"
         }
         return (
-            <div><Header />
+            <div>
                 <div class="container center" style={textCss}>
 
                     <div class="row">
-                        <div class="col s12">My List, {this.currentDate()}</div>
+                        <div style={myListCss} class="col s12">My List, {this.currentDate()}</div>
 
                     </div>
                     <div class="row">

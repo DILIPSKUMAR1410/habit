@@ -11,7 +11,8 @@ const data = [
 ];
 const options = {
     pieHole: 0.4,
-    is3D: false
+    is3D: false,
+    backgroundColor: { fill:'transparent' }
 };
 
 class actvityView extends React.Component {
@@ -103,15 +104,15 @@ class actvityView extends React.Component {
         }
         const textCss = {
             fontSize: "1rem",
-            color: '#1565c0'
+            
         }
         return (
-            <div><Header />
+            <div>
                 <div class="container center" style={textCss}>
                     <div class="row">
                         <div class="col s5">
                             <div class="row" style={paddingTop}>
-                                <div class="col s12">Habit - {this.listActvity().habitName} </div>
+                                <div class="col s12"><b>Habit - {this.listActvity().habitName} </b></div>
                             </div>
                             <div class="row">
                                 <div class="col s12"> Question- {this.listActvity().question}</div>

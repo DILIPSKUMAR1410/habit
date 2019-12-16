@@ -11,11 +11,20 @@ class Home extends React.Component {
   render() {
     const textCss={
       fontSize:"1rem",
-      color:'#1565c0'
   }
+  const bikingCss = {
+    height: "40vh",
+    paddingTop: "10px"
+};
+const buttonCss={
+  fontFamily:" 'Varela Round', sans-serif",
+  color:'#cc0000',
+  background:"transparent",
+  border:"1px solid black"
+}
     return (
       <div><Header />
-        <div class="container " style={textCss}>
+        <div class="container center " style={textCss}>
           <div class="row" >
             <div class="col s12"><p>Cultivating a habit is one of the most difficult things for humans to do. Mastering one is
       altogether a different ball game. Zero Tolerance helps you cultivate a habit, complete a task and
@@ -62,9 +71,25 @@ class Home extends React.Component {
               Login with
     </div>
 
-    <Link to="/intro"> <a class="center waves-effect waves-light btn blue darken-3">Blockstack</a></Link>
+    <Link to="/intro"> <button style={buttonCss} class="center">Blockstack</button></Link>
           </div>
+          <div class="row">
+                        <img style={bikingCss} src={require('../assets/biking.gif')}></img>
+                    </div>
+                    <div class="row">
+                        <div class="col s6">1. Treat your mind like a muscle. </div>
+                        <div class="col s6">2. The more you exercise your mind the better it responds</div>
+                    </div>
+                    <div class="row">
+                        <div class="col s6"> 3. Focus on the process and not the goal.</div>
+                        <div class="col s6"> 4. Keep in mind that it is difficult. </div>
+                    </div>
+                    <div class="row">
+                        <div class="col s6">5. Pat yourself for every step you finish</div>
+                        <div class="col s6"> <Link to="/createActivity"> <button style={buttonCss} class="center">Let's Start</button></Link></div>
+                    </div>
         </div>
+
       </div>
 
     );
