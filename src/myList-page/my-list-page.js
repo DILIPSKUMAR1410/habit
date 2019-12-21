@@ -2,6 +2,8 @@ import React from 'react';
 import Header from '../common/header-page';
 import { withRouter } from "react-router-dom";
 import M from 'materialize-css';
+import { Link } from 'react-router-dom';
+
 
 
 
@@ -104,7 +106,6 @@ class myList extends React.Component {
     }
     myList = () => {
         const updateDeleteCss = {
-            float: "right",
             paddingLeft: "0.5rem",
         }
         const buttonCss={
@@ -112,6 +113,9 @@ class myList extends React.Component {
             color:'#cc0000',
             backgroundColor:"transparant",
            
+          }
+          const spacing={
+              paddingLeft:"5rem"
           }
           const myListCss={
             backgroundColor:"transparent"
@@ -121,13 +125,14 @@ class myList extends React.Component {
 
         this.state.habits.forEach(habit => {
             list.push(<li style={myListCss} class="collection-item">
-                <span onClick={this.handleRedirect} id={habit.habitName}>  {habit.habitName}</span> <span style={updateDeleteCss}><a id={habit.habitName} style={buttonCss} class="center modal-trigger " onClick={this.updateModal} href="#delete"><i id={habit.habitName} class="material-icons">
-delete
-</i></a></span>
+                <span onClick={this.handleRedirect} id={habit.habitName}>  {habit.habitName}</span> <span style={spacing}>
                 <span style={updateDeleteCss}><a class="center modal-trigger" style={buttonCss} id={habit.habitName} onClick={this.updateModal} href="#update"><i id={habit.habitName} class="material-icons">
 cached
+</i></a></span><span style={updateDeleteCss}><a id={habit.habitName} style={buttonCss} class="center modal-trigger " onClick={this.updateModal} href="#delete"><i id={habit.habitName} class="material-icons">
+delete
 </i></a></span>
-            </li>)
+               
+          </span>  </li>)
 
         })
 
@@ -135,6 +140,10 @@ cached
 
     }
     render() {
+        const iconsCss = {
+            width: '50%',
+          }
+
         const textCss = {
             fontSize: "1rem",
         }
@@ -143,6 +152,19 @@ cached
         }
         return (
             <div>
+                   <div class="row">
+            <div class="col s3">
+            <Link to="/"> <img style={iconsCss} src={require('../assets/mind.png')}></img></Link>
+            </div>
+            <div class="col s3">
+            </div> <div class="col s3">
+           
+
+            </div> <div class="col s3">
+            <Link to="/addActvity"><a class="btn-floating btn-large waves-effect waves-light red"><i class="material-icons">add</i></a></Link>
+            
+            </div>
+            </div>
                 <div class="container center" style={textCss}>
 
                     <div class="row">

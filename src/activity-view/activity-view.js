@@ -1,21 +1,20 @@
 import React from 'react';
 import Header from '../common/header-page';
 import { Chart } from "react-google-charts";
+import { Link } from 'react-router-dom';
 
 
 
-const data = [
-    ["Task", "Hours per Day"],
-    ["Time Elapsed", 11],
-    ["Time Left", 7]
-];
+
+
 const options = {
     pieHole: 0.4,
-    is3D: false,
+    is3D: true,
     backgroundColor: { fill:'transparent' }
 };
 
 class actvityView extends React.Component {
+
 
     currentDate(date) {
         let dateObj = new Date(date);
@@ -97,7 +96,9 @@ class actvityView extends React.Component {
 
    
     render() {
-
+        const iconsCss = {
+            width: '50%',
+          }
 
         const paddingTop = {
             paddingTop: '2rem'
@@ -106,8 +107,24 @@ class actvityView extends React.Component {
             fontSize: "1rem",
             
         }
+        const floatRight={
+            float:"right"
+        }
         return (
             <div>
+                  <div class="row">
+            <div class="col s3">
+            <Link to="/"> <img style={iconsCss} src={require('../assets/mind.png')}></img></Link>
+            </div>
+            <div class="col s3">
+            </div> <div class="col s3">
+            <Link to="/myList"><img style={iconsCss} src={require('../assets/man-user.png')}></img></Link>
+
+            </div> <div class="col s3">
+            <Link to="/addActvity"><a class="btn-floating btn-large waves-effect waves-light red"><i class="material-icons">add</i></a></Link>
+            
+            </div>
+          </div>
                 <div class="container center" style={textCss}>
                     <div class="row">
                         <div class="col s5">

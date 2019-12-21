@@ -72,11 +72,11 @@ class AddActivity extends React.Component {
                     <div class="row">
                             <form onSubmit={this.handleSubmit} class="col s12">
                                 <div class="row">
-                                    <div class="input-field col s4">
+                                    <div class="input-field col s6">
                                         <input placeholder="Habit name" id="habitName" type="text" value={this.state.habitName} onChange={this.handleChange} class="validate" />
                                         <label for="habitName">Habit Name</label>
                                     </div>
-                                    <div class="input-field col s8">
+                                    <div class="input-field col s6">
                                         <input id="question" type="text" value={this.state.question} onChange={this.handleChange} class="validate" />
                                         <label for="question">Frame a question related to your habit</label>
                                     </div>

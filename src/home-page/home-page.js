@@ -1,28 +1,48 @@
 import React from 'react';
 import Header from '../common/header-page';
 import { Link } from 'react-router-dom';
+import Lottie from 'react-lottie';
+import animationData from '../assets/biking.json';
 
 
 
 class Home extends React.Component {
- 
 
- 
+
+
   render() {
-    const textCss={
-      fontSize:"1rem",
-  }
-  const bikingCss = {
-    height: "40vh",
-    paddingTop: "10px"
-};
-const buttonCss={
-  fontFamily:" 'Varela Round', sans-serif",
-  color:'#cc0000',
-  background:"transparent",
-  border:"1px solid black"
-}
+    const iconsCss = {
+      width: '50%',
+    }
+    const defaultOptions = {
+      loop: true,
+      autoplay: true,
+      animationData: animationData,
+      rendererSettings: {
+        preserveAspectRatio: 'xMidYMid slice'
+      }
+    };
+
+    const textCss = {
+      fontSize: "0.8rem",
+    }
+    const buttonCss = {
+      fontFamily: " 'Varela Round', sans-serif",
+      color: '#cc0000',
+      background: "transparent",
+      border: "1px solid black"
+    }
+    const topIconCss={
+      float:"left",
+      width:'5%'
+      
+    }
     return (
+      <div>
+      <div class="row">
+      <Link to="/"> <img style={topIconCss} src={require('../assets/mind.png')}></img></Link>
+
+  </div>
       <div><Header />
         <div class="container center " style={textCss}>
           <div class="row" >
@@ -35,15 +55,27 @@ const buttonCss={
           </div>
           <div class="row">
             <div class="col s3">
-            <i class="material-icons">build</i>
+              <img style={iconsCss} src={require('../assets/hand.png')}></img>
             </div>
             <div class="col s3">
-            <i class="material-icons">build</i>
+              <img style={iconsCss} src={require('../assets/customer-support.png')}></img>
             </div> <div class="col s3">
-            <i class="material-icons">build</i>
+              <img style={iconsCss} src={require('../assets/documents-security.png')}></img>
             </div> <div class="col s3">
-            <i class="material-icons">build</i>
+              <img style={iconsCss} src={require('../assets/blockchain.png')}></img>
             </div>
+          </div>
+          <div class="row">
+            <div class="col s3">
+              Easy to use
+            </div>
+            <div class="col s3">
+              Customizable
+            </div> <div class="col s3">
+              Private
+            </div> <div class="col s3">
+              Decentralized
+             </div>
           </div>
           <div class="divider"></div>
           <div class="section">
@@ -67,29 +99,31 @@ const buttonCss={
 
           </div>
           <div className="center">
-            <div class="row">
-              Login with
-    </div>
 
-    <Link to="/intro"> <button style={buttonCss} class="center">Blockstack</button></Link>
+            <Link to="/createActivity"> <button style={buttonCss} class="center">  Login with Blockstack</button></Link>
           </div>
           <div class="row">
-                        <img style={bikingCss} src={require('../assets/biking.gif')}></img>
-                    </div>
-                    <div class="row">
-                        <div class="col s6">1. Treat your mind like a muscle. </div>
-                        <div class="col s6">2. The more you exercise your mind the better it responds</div>
-                    </div>
-                    <div class="row">
-                        <div class="col s6"> 3. Focus on the process and not the goal.</div>
-                        <div class="col s6"> 4. Keep in mind that it is difficult. </div>
-                    </div>
-                    <div class="row">
-                        <div class="col s6">5. Pat yourself for every step you finish</div>
-                        <div class="col s6"> <Link to="/createActivity"> <button style={buttonCss} class="center">Let's Start</button></Link></div>
-                    </div>
+            <div class="col s6">
+              FAQ
+            </div>
+            <div class="col s6">
+              Copyright zerotolerance 2019
+            </div>
+          </div>
+          <div class="row">
+            <Lottie options={defaultOptions}
+              height={100}
+              width={100}
+            />
+          </div>
+
+          <marquee width="60%" direction="left" height="100px">
+            1.Treat your mind like a muscle. &nbsp;2.The more you exercise your mind the better it responds.&nbsp;3. Focus on the process and not the goal.
+            &nbsp;4. Keep in mind that it is difficult.&nbsp;5. Pat yourself for every step you finish.
+          </marquee>
         </div>
 
+      </div>
       </div>
 
     );
