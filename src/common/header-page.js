@@ -2,13 +2,16 @@ import React from 'react';
 
 
 function Header() {
+    const headerFont={
+        fontFamily:" 'Permanent Marker', cursive",
+        color:'#cc0000'
+
+    }
     return (
       
-            <nav>
-                <div class="nav-wrapper   blue darken-3" >
-                    <a href="#!" class="brand-logo center"><h5>Zero Tolerance</h5></a>
-                </div>
-            </nav>
+               
+                    <a href="#!" style={headerFont} class="brand-logo center"><h1>Zero Tolerance</h1></a>
+   
       
     );
 }
