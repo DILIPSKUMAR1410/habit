@@ -3,7 +3,11 @@ import Header from '../common/header-page';
 import { Link } from 'react-router-dom';
 import Lottie from 'react-lottie';
 import animationData from '../assets/biking.json';
+import { UserSession, AppConfig } from "blockstack";
 
+const appConfig = new AppConfig();
+const options = { encrypt: false };
+const userSession = new UserSession({ appConfig: appConfig });
 
 
 class Home extends React.Component {
@@ -15,9 +19,24 @@ class Home extends React.Component {
     };
   }
 
-  login(){
+  handleSignin = e => {
+    e.preventDefault();
+    userSession.redirectToSignIn();
+  };
 
+  handleSignOut(e) {
+    e.preventDefault();
+    userSession.signUserOut(window.location.origin);
   }
+
+  componentDidMount() {
+    if (userSession.isSignInPending()) {
+      userSession.handlePendingSignIn().then(userData => {
+        this.props.history.push("/createActivity");
+      });
+    }
+  }
+
   render() {
 let loading=this.state.loading? <React.Fragment><div class="row">
 <Lottie options={defaultOptions}
@@ -118,8 +137,15 @@ let loading=this.state.loading? <React.Fragment><div class="row">
 
             </div>
             <div className="center">
-
-              <Link to="/createActivity"> <button style={buttonCss} onClick={this.login}  class="center">  Login with Blockstack</button></Link>
+          {!userSession.isUserSignedIn() ? (
+            <button style={buttonCss} class="center" onClick={this.handleSignin}>
+              Login with BlockStack
+            </button>
+          ) : (
+            <button style={buttonCss} class="center" onClick={this.handleSignOut}>
+              Logout
+            </button>
+          )}
             </div>
             <div class="row">
               <div class="col s6">

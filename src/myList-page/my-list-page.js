@@ -3,7 +3,11 @@ import Header from '../common/header-page';
 import { withRouter } from "react-router-dom";
 import M from 'materialize-css';
 import { Link } from 'react-router-dom';
+import { UserSession, AppConfig } from "blockstack";
 
+const appConfig = new AppConfig();
+const options = { encrypt: false };
+const userSession = new UserSession({ appConfig: appConfig });
 
 
 
@@ -97,7 +101,12 @@ class myList extends React.Component {
             habits: filterHabit
         });
         filterHabit = JSON.stringify(filterHabit);
-        localStorage.setItem('habits', filterHabit);
+       
+        userSession
+          .putFile("habits.json", JSON.stringify(habits), options)
+          .then(() => {
+            localStorage.setItem('habits', filterHabit);
+          });
 
     }
 

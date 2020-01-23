@@ -3,10 +3,6 @@ import Header from '../common/header-page';
 import { Chart } from "react-google-charts";
 import { Link } from 'react-router-dom';
 
-
-
-
-
 const options = {
     pieHole: 0.4,
     is3D: true,

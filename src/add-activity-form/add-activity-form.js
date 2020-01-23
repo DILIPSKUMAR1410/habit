@@ -2,7 +2,11 @@ import React from 'react';
 import Header from '../common/header-page';
 import M from 'materialize-css';
 import { withRouter, Link } from "react-router-dom";
+import { UserSession, AppConfig } from "blockstack";
 
+const appConfig = new AppConfig();
+const options = { encrypt: false };
+const userSession = new UserSession({ appConfig: appConfig });
 
 
 class AddActivity extends React.Component {
@@ -49,11 +53,12 @@ class AddActivity extends React.Component {
 
         }
         console.log(habits)
-        localStorage.setItem('habits', JSON.stringify(habits));
-        this.props.history.push("/myList");
-
-
-
+        userSession
+          .putFile("habits.json", JSON.stringify(habits), options)
+          .then(() => {
+            localStorage.setItem('habits', JSON.stringify(habits));
+            this.props.history.push("/myList");
+          });
     }
     render() {
         const textCss = {
