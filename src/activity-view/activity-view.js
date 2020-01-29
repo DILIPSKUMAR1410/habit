@@ -2,15 +2,32 @@ import React from 'react';
 import Header from '../common/header-page';
 import { Chart } from "react-google-charts";
 import { Link } from 'react-router-dom';
+import animationData from '../assets/biking.json';
+import { UserSession, AppConfig } from "blockstack";
+import Lottie from 'react-lottie';
 
+const appConfig = new AppConfig();
+const optionsGetFile = {
+    decrypt: false
+}
 const options = {
     pieHole: 0.4,
-    is3D: true,
-    backgroundColor: { fill:'transparent' }
+    is3D: false,
+    backgroundColor: { fill: 'transparent' }
 };
+let habitList;
+
+const userSession = new UserSession({ appConfig: appConfig });
 
 class actvityView extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            habits: undefined,
+            loading: true
+        };
 
+    }
 
     currentDate(date) {
         let dateObj = new Date(date);
@@ -37,46 +54,56 @@ class actvityView extends React.Component {
 
     listActvity() {
         let selectedHabit = sessionStorage.getItem('selectedHabit');
-        let habits = localStorage.getItem('habits');
-        habits = JSON.parse(habits);
-        let habitList
-        if (selectedHabit) {
+        let habits = this.state.habits;
+        if (habitList === undefined) {
+            if (selectedHabit) {
 
-            habits.map(habit => {
-                if (habit.habitName == selectedHabit) {
-                    habitList = habit;
-                    habitList.startDate = this.currentDate(habitList.startDate);
-                    habitList.endDate = this.currentDate(habitList.endDate);
-                }
-            })
+                habits.map(habit => {
+                    if (habit.habitName === selectedHabit) {
+                        habitList = habit;
+                        habitList.startDate = this.currentDate(habitList.startDate);
+                        habitList.endDate = this.currentDate(habitList.endDate);
 
-            return habitList;
+                    }
 
+                })
+
+            }
         }
+        return habitList;
+
+
     }
+    componentDidMount() {
+        userSession.getFile('habits.json', optionsGetFile).then((res) => {
+            console.log(res);
+            let habits = JSON.parse(res)
+            this.setState({ habits: habits, loading: false, })
 
-    getChartOneDetails(){
+        })
+    }
+    getChartOneDetails() {
 
-        let startDate=new Date(this.listActvity().startDate);
-        let endDate=new Date(this.listActvity().endDate);
-        let today= new Date();
-        today=new Date(this.currentDate(today));
-    
+        let startDate = new Date(this.listActvity().startDate);
+        let endDate = new Date(this.listActvity().endDate);
+        let today = new Date();
+        today = new Date(this.currentDate(today));
 
-        let diffEndToday=(endDate.getTime()-today.getTime())/(1000 * 3600 * 24);
-        let diffTodayStart=((today.getTime()-startDate.getTime())/(1000 * 3600 * 24));
-        let diffEndStart=(endDate.getTime()-startDate.getTime())/(1000 * 3600 * 24);
 
-        let timeLeft=diffEndToday/diffEndStart
-        let timeElapsed=diffTodayStart/diffEndStart;  
+        let diffEndToday = (endDate.getTime() - today.getTime()) / (1000 * 3600 * 24);
+        let diffTodayStart = ((today.getTime() - startDate.getTime()) / (1000 * 3600 * 24));
+        let diffEndStart = (endDate.getTime() - startDate.getTime()) / (1000 * 3600 * 24);
+
+        let timeLeft = diffEndToday / diffEndStart
+        let timeElapsed = diffTodayStart / diffEndStart;
 
         return [
             ["Task", "Hours per Day"],
             ["Time Left", timeLeft],
             ["Time elapsed", timeElapsed]
-        ];    
+        ];
 
-        
+
     }
 
     getChartTwoDetails() {
@@ -90,37 +117,48 @@ class actvityView extends React.Component {
 
     }
 
-   
+
     render() {
+        const defaultOptions = {
+            loop: true,
+            autoplay: true,
+            animationData: animationData,
+            rendererSettings: {
+                preserveAspectRatio: 'xMidYMid slice'
+            }
+        };
+        const paddingTopBike = {
+            paddingTop: "10%"
+        }
         const iconsCss = {
-            width: '50%',
-          }
+            width: '20%',
+        }
 
         const paddingTop = {
             paddingTop: '2rem'
         }
         const textCss = {
             fontSize: "1rem",
-            
+
         }
-        const floatRight={
-            float:"right"
+        const floatRight = {
+            float: "right"
         }
         return (
-            <div>
-                  <div class="row">
-            <div class="col s3">
-            <Link to="/"> <img style={iconsCss} src={require('../assets/mind.png')}></img></Link>
-            </div>
-            <div class="col s3">
-            </div> <div class="col s3">
-            <Link to="/myList"><img style={iconsCss} src={require('../assets/man-user.png')}></img></Link>
+            !this.state.loading ? <div>
+                <div class="row">
+                    <div class="col s3">
+                        <Link to="/"> <img style={iconsCss} src={require('../assets/mind.png')}></img></Link>
+                    </div>
+                    <div class="col s5">
+                    </div> <div class="col s2">
+                        <Link to="/myList"><img style={iconsCss} src={require('../assets/man-user.png')}></img></Link>
 
-            </div> <div class="col s3">
-            <Link to="/addActvity"><a class="btn-floating btn-large waves-effect waves-light red"><i class="material-icons">add</i></a></Link>
-            
-            </div>
-          </div>
+                    </div> <div class="col s2">
+                        <Link to="/addActvity"><a class="btn-floating btn-large waves-effect waves-light red"><i class="material-icons">add</i></a></Link>
+
+                    </div>
+                </div>
                 <div class="container center" style={textCss}>
                     <div class="row">
                         <div class="col s5">
@@ -164,7 +202,11 @@ class actvityView extends React.Component {
                         </div>
                     </div>
                 </div>
-            </div>
+            </div> : <div style={paddingTopBike}> <Lottie options={defaultOptions}
+                height={400}
+                width={400}
+            /></div>
+
         );
     }
 }

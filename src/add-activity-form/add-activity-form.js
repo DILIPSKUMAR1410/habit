@@ -3,6 +3,9 @@ import Header from '../common/header-page';
 import M from 'materialize-css';
 import { withRouter, Link } from "react-router-dom";
 import { UserSession, AppConfig } from "blockstack";
+import animationData from '../assets/biking.json';
+import Lottie from 'react-lottie';
+
 
 const appConfig = new AppConfig();
 const options = { encrypt: false };
@@ -20,7 +23,8 @@ class AddActivity extends React.Component {
             startDate:new Date(),
             endDate:'',
             color:'black',
-            updateHrs:0
+            updateHrs:0,
+            loading:false
         };
 
         this.handleChange = this.handleChange.bind(this);
@@ -40,6 +44,10 @@ class AddActivity extends React.Component {
     }
 
     handleSubmit(event) {
+        event.preventDefault();
+        this.setState({
+            loading:true,
+        })
         console.log(this.state);
         let habits = localStorage.getItem('habits')
         if (habits) {
@@ -70,8 +78,19 @@ class AddActivity extends React.Component {
             background:"transparent",
             border:"1px solid black"
           }
+          const defaultOptions = {
+            loop: true,
+            autoplay: true,
+            animationData: animationData,
+            rendererSettings: {
+              preserveAspectRatio: 'xMidYMid slice'
+            }
+          };
+          const paddingTop={
+            paddingTop:"10%"
+        }
         return (
-            <div>
+            !this.state.loading ? <div>
                 <div class="container center" style={textCss}>
                     <div class="section">
                         New Habit
@@ -120,7 +139,10 @@ class AddActivity extends React.Component {
                         </div>
                     </div>
                 </div>
-            </div>
+            </div>:<div style={paddingTop}> <Lottie options={defaultOptions}
+        height={400}
+        width={400}
+      /></div>
         );
     }
 }

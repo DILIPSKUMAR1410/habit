@@ -1,32 +1,45 @@
 import React from 'react';
 import Header from '../common/header-page';
+import Lottie from 'react-lottie';
 import { withRouter } from "react-router-dom";
 import M from 'materialize-css';
 import { Link } from 'react-router-dom';
 import { UserSession, AppConfig } from "blockstack";
+import animationData from '../assets/biking.json';
+import {Modal, Button, Icon} from 'react-materialize'
+
+
 
 const appConfig = new AppConfig();
 const options = { encrypt: false };
+const optionsGetFile = {
+    decrypt: false
+}
 const userSession = new UserSession({ appConfig: appConfig });
 
 
 
 class myList extends React.Component {
+
     constructor(props) {
         super(props);
-        let habits = localStorage.getItem('habits');
-        habits = JSON.parse(habits);
-        habits.map(habit => {
-            if (habit.color ==='#cc0000' ) {
-                habit.color='black'; 
-            }
-            return habit;
-        })
+        
+               
+      
         this.state = {
-            habits: habits
+            habits: undefined,
+            loading:true
         };
+        // let habits = localStorage.getItem('habits');
+        // habits = JSON.parse(habits);
+        // habits.map(habit => {
+        //     if (habit.color === '#cc0000') {
+        //         habit.color = 'black';
+        //     }
+        //     return habit;
+        // })
 
-       
+
         this.handleRedirect = this.handleRedirect.bind(this);
         this.handleChange = this.handleChange.bind(this);
         this.updateModal = this.updateModal.bind(this);
@@ -70,20 +83,25 @@ class myList extends React.Component {
         return newDate;
     }
     componentDidMount() {
-        let habits = localStorage.getItem('habits');
-        habits = JSON.parse(habits);
-        habits.map(habit => {
-            if (habit.color ==='#cc0000' ) {
-                habit.color='black'; 
-            }
-            return habit;
-        })
-        this.state = {
-            habits: habits
-        };
-
         var elems = document.querySelectorAll('.modal');
         var instances = M.Modal.init(elems);
+  userSession.getFile('habits.json', optionsGetFile).then((res) => {
+      console.log(res);
+    
+    let habits = JSON.parse(res)
+    habits.map(habit => {
+        if (habit.color === '#cc0000') {
+            habit.color = 'black';
+        }
+        return habit;
+    })
+   
+    this.setState({habits: habits, loading:false,})
+           
+        })
+        
+       
+       
     }
 
     updateModal(event) {
@@ -101,12 +119,12 @@ class myList extends React.Component {
             habits: filterHabit
         });
         filterHabit = JSON.stringify(filterHabit);
-       
+
         userSession
-          .putFile("habits.json", JSON.stringify(habits), options)
-          .then(() => {
-            localStorage.setItem('habits', filterHabit);
-          });
+            .putFile("habits.json", JSON.stringify(habits), options)
+            .then(() => {
+                localStorage.setItem('habits', filterHabit);
+            });
 
     }
 
@@ -114,14 +132,14 @@ class myList extends React.Component {
 
         let deleteUpdateItem = this.state.deleteUpdateItem;
         let habits = localStorage.getItem('habits');
-        habits=JSON.parse(habits);
+        habits = JSON.parse(habits);
         let updateHabit = habits.map(habit => {
             if (habit.habitName === deleteUpdateItem) {
                 let habitUpdateHrs = parseInt(habit.updateHrs);
                 let updateHrs = parseInt(this.state.updateHrs);
-                habit.color='#cc0000';
+                habit.color = '#cc0000';
                 habit.updateHrs = habitUpdateHrs + updateHrs;
-                
+
             }
             return habit;
         })
@@ -129,40 +147,106 @@ class myList extends React.Component {
             habits: updateHabit
         });
         updateHabit = JSON.stringify(updateHabit);
+
+        userSession
+            .putFile("habits.json", JSON.stringify(habits), options)
+            .then(() => {
+                localStorage.setItem('habits', updateHabit);
+            });
+
         localStorage.setItem('habits', updateHabit);
 
 
     }
-    myList = () => {
+    myList()  {
         const updateDeleteCss = {
             paddingLeft: "0.5rem",
         }
-        const buttonCss={
-            fontFamily:" 'Varela Round', sans-serif",
-            color:'#cc0000',
-            backgroundColor:"transparant",
-           
-          }
+        const buttonCss = {
+            fontFamily: " 'Varela Round', sans-serif",
+            color: '#cc0000',
+            backgroundColor: "transparant",
 
-          const spacing={
-              paddingLeft:"5rem"
-          }
-          const myListCss={
-            backgroundColor:"transparent"
-          }
+        }
+
+        const spacing = {
+            paddingLeft: "5rem"
+        }
+        const myListCss = {
+            backgroundColor: "transparent"
+        }
         let list = [];
 
 
         this.state.habits.forEach(habit => {
-            list.push(<li style={myListCss} class="collection-item">   <div class="row">
-                <span class="col s3" onClick={this.handleRedirect} id={habit.habitName}>  {habit.habitName}</span> <span style={spacing}>
-                <span  style={updateDeleteCss}><a class="center modal-trigger" style={{color:habit.color}}  id={habit.habitName} onClick={this.updateModal} href="#update"><i id={habit.habitName} class="material-icons">
-cached
-</i></a></span><span  style={updateDeleteCss}><a id={habit.habitName}  style={buttonCss} class="center modal-trigger " onClick={this.updateModal} href="#delete"><i id={habit.habitName} class="material-icons">
-delete
-</i></a></span>
-               
-          </span> </div> </li>)
+            list.push(<li style={myListCss}     Name="collection-item">   <div className="row">
+                <span className="col s3" onClick={this.handleRedirect} id={habit.habitName}>  {habit.habitName}</span> <span style={spacing}><Modal
+  actions={[
+    <a href="#!" class="modal-close waves-effect waves-light  btn-flat" onClick={this.updateHabit}>Update</a>
+
+  ]}
+  bottomSheet={false}
+  fixedFooter={false}
+  header="Update"
+  id="modal-0"
+  options={{
+    dismissible: true,
+    endingTop: '10%',
+    inDuration: 250,
+    onCloseEnd: null,
+    onCloseStart: null,
+    onOpenEnd: null,
+    onOpenStart: null,
+    opacity: 0.5,
+    outDuration: 250,
+    preventScrolling: true,
+    startingTop: '4%'
+  }}
+  trigger={ <span  style={updateDeleteCss}><a class="center modal-trigger" style={{color:habit.color}}  id={habit.habitName} onClick={this.updateModal} href="#update"><i id={habit.habitName} class="material-icons">
+  cached
+  </i></a></span>}
+>
+<input placeholder="In hours" id="task_time" type="number" className="validate" onChange={this.handleChange} />
+                        <label for="task_time">Enter the number of hours you have performed the task today?</label>
+
+</Modal>
+<Modal
+  actions={[
+    <a href="#!" onClick={this.deleteHabit} className="modal-close waves-effect waves-light  btn-flat">Delete</a>
+    
+
+  ]}
+  bottomSheet={false}
+  fixedFooter={false}
+  header="Update"
+  id="modal-0"
+  options={{
+    dismissible: true,
+    endingTop: '10%',
+    inDuration: 250,
+    onCloseEnd: null,
+    onCloseStart: null,
+    onOpenEnd: null,
+    onOpenStart: null,
+    opacity: 0.5,
+    outDuration: 250,
+    preventScrolling: true,
+    startingTop: '4%'
+  }}
+  trigger={ <span style={updateDeleteCss}><a id={habit.habitName} style={buttonCss} className="center modal-trigger " onClick={this.updateModal} href="#delete"><i id={habit.habitName} className="material-icons">
+  delete
+</i></a></span>}
+>
+Are you sure, you want to delete learn-{this.state.deleteUpdateItem}
+
+</Modal>
+                    {/* <span style={updateDeleteCss}><a className="center modal-trigger" style={{ color: habit.color }} id={habit.habitName} onClick={this.updateModal} href="#update"><i id={habit.habitName} className="material-icons">
+                        cached
+</i></a></span><span style={updateDeleteCss}><a id={habit.habitName} style={buttonCss} className="center modal-trigger " onClick={this.updateModal} href="#delete"><i id={habit.habitName} className="material-icons">
+                        delete
+</i></a></span> */}
+
+                </span> </div> </li>)
 
         })
 
@@ -170,61 +254,73 @@ delete
 
     }
     render() {
+        const defaultOptions = {
+            loop: true,
+            autoplay: true,
+            animationData: animationData,
+            rendererSettings: {
+              preserveAspectRatio: 'xMidYMid slice'
+            }
+          };
+      
+        const headerFont = {
+            fontFamily: " 'Varela Round', sans-serif",
+            color: '#cc0000',
+            fontSize: '5rem'
 
-        const headerFont={
-            fontFamily:" 'Varela Round', sans-serif",
-            color:'#cc0000',
-            fontSize:'5rem'
-    
         }
         const iconsCss = {
             width: '20%',
-          }
+        }
 
         const textCss = {
             fontSize: "1rem",
         }
-        const myListCss={
-            fontSize:"2rem"
+        const myListCss = {
+            fontSize: "2rem"
+        }
+        const paddingTop={
+            paddingTop:"10%"
         }
         return (
-            <div>
-                   <div class="row">
-            <div class="col s3">
-            <Link to="/"> <img style={iconsCss} src={require('../assets/mind.png')}></img></Link>
-            </div>
-            <div class="col s3">
-            </div> <div class="col s3">
-           
+           !this.state.loading ? <div>
+                <div className="row">
+                    <div className="col s3">
+                        <Link to="/"> <img style={iconsCss} src={require('../assets/mind.png')}></img></Link>
+                    </div>
+                    <div className="col s3">
+                    </div> <div className="col s3">
 
-            </div> <div class="col s3">
-            <Link to="/addActvity"><a class="btn-floating btn-large waves-effect waves-light red"><i class="material-icons">add</i></a></Link>
-            
-            </div>
-            </div>
-                <div class="container center" style={textCss}>
 
-                    <div class="row">
-
-                        <div style={headerFont} class="col s12">My List, {this.currentDate()}</div>
+                    </div> <div className="col s3">
+                        <Link to="/addActvity"><a className="btn-floating btn-large waves-effect waves-light red"><i className="material-icons">add</i></a></Link>
 
                     </div>
-                    <div class="row">
-                        <ul class="collection">
+                </div>
+                <div className="container center" style={textCss}>
+
+                    <div className="row">
+
+                        <div style={headerFont} className="col s12">My List, {this.currentDate()}</div>
+
+                    </div>
+                    <div className="row">
+                        <ul className="collection">
 
                             {this.myList()}
 
                         </ul>
                     </div>
-                    <div class="row">
-                        <div class="col s12" >Click on the update button to enter activity performed</div>
+                    <div className="row">
+                        <div className="col s12" >Click on the update button to enter activity performed</div>
+                    </div>
                 </div>
-</div>
+                
                 <div id="update" class="modal">
-                    <div class="modal-content">
+                    <div className="modal-content">
 
 
-                        <input placeholder="In hours" id="task_time" type="number" class="validate" onChange={this.handleChange} />
+                        <input placeholder="In hours" id="task_time" type="number" className="validate" onChange={this.handleChange} />
                         <label for="task_time">Enter the number of hours you have performed the task today?</label>
 
                     </div>
@@ -236,14 +332,16 @@ delete
                 <div id="delete" class="modal">
                     <div class="modal-content">
 
-                        Are you sure, you want to delete learn-{this.state.deleteUpdateItem} 
+                        Are you sure, you want to delete learn-{this.state.deleteUpdateItem}
                     </div>
                     <div class="modal-footer">
-                        <a href="#!" onClick={this.deleteHabit} class="modal-close waves-effect waves-light  btn-flat">Delete</a>
+                        <a href="#!" onClick={this.deleteHabit} className="modal-close waves-effect waves-light  btn-flat">Delete</a>
                     </div>
                 </div>
-            </div>
-
+            </div>:<div style={paddingTop}> <Lottie options={defaultOptions}
+        height={400}
+        width={400}
+      /></div>
 
 
         );
