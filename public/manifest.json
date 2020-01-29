@@ -8,6 +8,6 @@
       "type": "image/png"
     }
   ],
-  "start_url": "http://localhost:3000/",
+  "start_url": "https://zerotolerance.xyz/",
   "display": "standalone"
 }
