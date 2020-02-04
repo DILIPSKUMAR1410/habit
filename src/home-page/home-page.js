@@ -62,6 +62,7 @@ let loading=this.state.loading? <React.Fragment><div class="row">
     const iconsCss = {
       width: '50%',
     }
+
     const defaultOptions = {
       loop: true,
       autoplay: true,
@@ -71,6 +72,13 @@ let loading=this.state.loading? <React.Fragment><div class="row">
       }
     };
 
+    const myListIconCss = {
+      width: '5%',
+  }
+
+    const paddingTop={
+      paddingTop:'10%'
+    }
     const textCss = {
       fontSize: "2rem",
     }
@@ -78,36 +86,20 @@ let loading=this.state.loading? <React.Fragment><div class="row">
       fontFamily: " 'Varela Round', sans-serif",
       color: '#cc0000',
       background: "transparent",
-      border: "1px solid black",
-      fontSize: "20px"
+      border: "1px solid black"
     }
     const topIconCss = {
       float: "left",
-      width: '5%',
-      marginTop: "1%"
-    }
-    const topRightCss = {
-      float: "right",
-      width: "18%",
-      marginTop: "2%"
+      width: '5%'
+
     }
     return (
       <div>
         <div class="row">
           <Link to="/"> <img style={topIconCss} src={require('../assets/mind.png')}></img></Link>
-         <div style={topRightCss}>
-          {!userSession.isUserSignedIn() ? (
-            <button style={buttonCss} onClick={this.handleSignin}>
-              Login with BlockStack
-            </button>
-          ) : (
-            <button style={buttonCss} onClick={this.handleSignOut}>
-              Logout
-            </button>
-          )}
-            </div>
-        </div>
+    {userSession.isUserSignedIn() ? ( <Link to="/myList"><img style={myListIconCss} src={require('../assets/man-user.png')}></img></Link>):null}
 
+        </div>
         <div><Header />
           <div class="container center " style={textCss}>
             <Lottie options={homedefaultOptions}
@@ -146,9 +138,10 @@ let loading=this.state.loading? <React.Fragment><div class="row">
              </div>
             </div>
             <div class="divider"></div>
-            <div class="section">
-              How it works ?
+            <div style={paddingTop} class="section">
+              How it works ? 
     <div class="row">
+      <br></br>
                 <div class="col s6">A. Make up your mind</div>
                 <div class="col s6">B. Select a habit that you want to cultivate</div>
               </div>
@@ -166,11 +159,20 @@ let loading=this.state.loading? <React.Fragment><div class="row">
               </div>
 
             </div>
-            <div class="row">
-              <div class="col s6">
-                FAQ
+            <div style={paddingTop} lassName="center">
+          {!userSession.isUserSignedIn() ? (
+            <button style={buttonCss} class="center" onClick={this.handleSignin}>
+              Login with BlockStack
+            </button>
+          ) : (
+            <button style={buttonCss} class="center" onClick={this.handleSignOut}>
+              Logout
+            </button>
+          )}
             </div>
-              <div class="col s6">
+            <div  class="row">
+              <br></br>
+              <div class="col s12">
                 Copyright zerotolerance 2019
             </div>
             </div>

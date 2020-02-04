@@ -15,7 +15,7 @@ const options = {
     is3D: false,
     backgroundColor: { fill: 'transparent' }
 };
-let habitList;
+let habitList=null;
 
 const userSession = new UserSession({ appConfig: appConfig });
 
@@ -52,29 +52,30 @@ class actvityView extends React.Component {
         return newDate;
     }
 
-    listActvity() {
+listActvity() {
         let selectedHabit = sessionStorage.getItem('selectedHabit');
         let habits = this.state.habits;
-        if (habitList === undefined) {
+        if(!habitList)
             if (selectedHabit) {
 
                 habits.map(habit => {
                     if (habit.habitName === selectedHabit) {
                         habitList = habit;
-                        habitList.startDate = this.currentDate(habitList.startDate);
-                        habitList.endDate = this.currentDate(habitList.endDate);
+                        habitList.startDate = this.currentDate(habit.startDate);
+                        habitList.endDate = this.currentDate(habit.endDate);
 
                     }
 
                 })
 
             }
-        }
+        
         return habitList;
 
 
     }
     componentDidMount() {
+        habitList=null;
         userSession.getFile('habits.json', optionsGetFile).then((res) => {
             console.log(res);
             let habits = JSON.parse(res)
@@ -106,6 +107,12 @@ class actvityView extends React.Component {
 
     }
 
+    handleSignOut(e) {
+        e.preventDefault();
+        userSession.signUserOut(window.location.origin);
+        this.props.history.push("/");
+      }
+
     getChartTwoDetails() {
         let chartTaskLeft = parseInt(this.listActvity().noOfHrs) - this.listActvity().updateHrs;
         let chartTaskAchieved = this.listActvity().updateHrs / parseInt(this.listActvity().noOfHrs);
@@ -127,15 +134,22 @@ class actvityView extends React.Component {
                 preserveAspectRatio: 'xMidYMid slice'
             }
         };
+
+        const iconFont={
+            fontSize:"4rem"
+        }
         const paddingTopBike = {
             paddingTop: "10%"
         }
         const iconsCss = {
-            width: '20%',
+            width: '15%',
+        }
+        const iconCssMyList={
+            width:'50%'
         }
 
         const paddingTop = {
-            paddingTop: '2rem'
+            paddingTop: '6rem'
         }
         const textCss = {
             fontSize: "1rem",
@@ -150,18 +164,24 @@ class actvityView extends React.Component {
                     <div class="col s3">
                         <Link to="/"> <img style={iconsCss} src={require('../assets/mind.png')}></img></Link>
                     </div>
-                    <div class="col s5">
-                    </div> <div class="col s2">
-                        <Link to="/myList"><img style={iconsCss} src={require('../assets/man-user.png')}></img></Link>
+                    <div class="col s6">
+                    </div> <div class="col s1">
+                        <Link to="/myList"><img style={iconCssMyList} src={require('../assets/man-user.png')}></img></Link>
 
-                    </div> <div class="col s2">
+                    </div> <div class="col s1">
                         <Link to="/addActvity"><a class="btn-floating btn-large waves-effect waves-light red"><i class="material-icons">add</i></a></Link>
 
                     </div>
+                    <div class="col s1">
+                        <div onClick={this.handleSignOut}><i style={iconFont} class="material-icons">
+exit_to_app
+</i></div>
+
+                    </div>
                 </div>
-                <div class="container center" style={textCss}>
+                <div  style={paddingTop} class="container center" style={textCss}>
                     <div class="row">
-                        <div class="col s5">
+                        <div class="col s4">
                             <div class="row" style={paddingTop}>
                                 <div class="col s12"><b>Habit - {this.listActvity().habitName} </b></div>
                             </div>
@@ -178,14 +198,14 @@ class actvityView extends React.Component {
                                 <div class="col s12">End Date- {this.listActvity().endDate} </div>
                             </div>
                         </div>
-                        <div class="col s7">
+                        <div class="col s8">
                             <div class="col s12">
                                 <Chart
                                     chartType="PieChart"
                                     data={this.getChartOneDetails()}
                                     options={options}
                                     width="100%"
-                                    height="100px"
+                                    height="100%"
                                     legendToggle
                                 />
                             </div>
@@ -195,7 +215,7 @@ class actvityView extends React.Component {
                                     data={this.getChartTwoDetails()}
                                     options={options}
                                     width="100%"
-                                    height="100px"
+                                    height="100%"
                                     legendToggle
                                 />
                             </div>

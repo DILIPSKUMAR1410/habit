@@ -131,17 +131,16 @@ class myList extends React.Component {
     updateHabit() {
 
         let deleteUpdateItem = this.state.deleteUpdateItem;
-        let habits = localStorage.getItem('habits');
-        habits = JSON.parse(habits);
+        let habits = this.state.habits;
         let updateHabit = habits.map(habit => {
             if (habit.habitName === deleteUpdateItem) {
                 let habitUpdateHrs = parseInt(habit.updateHrs);
                 let updateHrs = parseInt(this.state.updateHrs);
                 habit.color = '#cc0000';
                 habit.updateHrs = habitUpdateHrs + updateHrs;
-
+                return habit;
             }
-            return habit;
+            return habit;  
         })
         this.setState({
             habits: updateHabit
@@ -180,7 +179,7 @@ class myList extends React.Component {
 
         this.state.habits.forEach(habit => {
             list.push(<li style={myListCss}     Name="collection-item">   <div className="row">
-                <span className="col s3" onClick={this.handleRedirect} id={habit.habitName}>  {habit.habitName}</span> <span style={spacing}><Modal
+                <span className="col s3" onClick={this.handleRedirect} id={habit.habitName}>  {habit.habitName}</span>{habit.color==='#cc0000'?<span className="col s4">Click on the habit to track your progress</span>:<span className="col s4" ></span>} <span style={spacing}><Modal
   actions={[
     <a href="#!" class="modal-close waves-effect waves-light  btn-flat" onClick={this.updateHabit}>Update</a>
 
