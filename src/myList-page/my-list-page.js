@@ -16,7 +16,9 @@ const optionsGetFile = {
     decrypt: false
 }
 const userSession = new UserSession({ appConfig: appConfig });
-
+const cursor={
+               cursor: "pointer"
+        }
 
 
 class myList extends React.Component {
@@ -167,19 +169,21 @@ class myList extends React.Component {
             backgroundColor: "transparant",
 
         }
+        
 
         const spacing = {
             paddingLeft: "5rem"
         }
         const myListCss = {
-            backgroundColor: "transparent"
+            backgroundColor: "transparent",
+            marginTop:"25px"
         }
         let list = [];
 
 
         this.state.habits.forEach(habit => {
             list.push(<li style={myListCss}     Name="collection-item">   <div className="row">
-                <span className="col s3" onClick={this.handleRedirect} id={habit.habitName}>  {habit.habitName}</span>{habit.color==='#cc0000'?<span className="col s4">Click on the habit to track your progress</span>:<span className="col s4" ></span>} <span style={spacing}><Modal
+                <span style={cursor} className="col s3" onClick={this.handleRedirect} id={habit.habitName}>  {habit.habitName}</span>{habit.color==='#cc0000'?<span className="col s4">Click on the habit to track your progress</span>:<span className="col s4" ></span>} <span style={spacing}><Modal
   actions={[
     <a href="#!" class="modal-close waves-effect waves-light  btn-flat" onClick={this.updateHabit}>Update</a>
 
@@ -268,6 +272,7 @@ Are you sure, you want to delete learn-{this.state.deleteUpdateItem}
             fontSize: '5rem'
 
         }
+        
         const iconsCss = {
             width: '20%',
         }
@@ -281,9 +286,12 @@ Are you sure, you want to delete learn-{this.state.deleteUpdateItem}
         const paddingTop={
             paddingTop:"10%"
         }
+        const marginTop={
+            marginTop:"1%"
+        }
         return (
            !this.state.loading ? <div>
-                <div className="row">
+                <div className="row" style={marginTop}>
                     <div className="col s3">
                         <Link to="/"> <img style={iconsCss} src={require('../assets/mind.png')}></img></Link>
                     </div>

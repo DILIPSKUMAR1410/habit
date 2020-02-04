@@ -158,9 +158,12 @@ listActvity() {
         const floatRight = {
             float: "right"
         }
+         const marginTop={
+            marginTop:"2%"
+        }
         return (
             !this.state.loading ? <div>
-                <div class="row">
+                <div class="row" style={marginTop}>
                     <div class="col s3">
                         <Link to="/"> <img style={iconsCss} src={require('../assets/mind.png')}></img></Link>
                     </div>

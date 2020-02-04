@@ -73,7 +73,8 @@ let loading=this.state.loading? <React.Fragment><div class="row">
     };
 
     const myListIconCss = {
-      width: '5%',
+      width: '20%',
+      cursor:'pointer'
   }
 
     const paddingTop={
@@ -86,19 +87,39 @@ let loading=this.state.loading? <React.Fragment><div class="row">
       fontFamily: " 'Varela Round', sans-serif",
       color: '#cc0000',
       background: "transparent",
-      border: "1px solid black"
+      fontSize: "30px",
+      border: "transparent"
     }
     const topIconCss = {
       float: "left",
-      width: '5%'
+      width: '5%',
+      marginTop: "1%",
+      marginLeft: "1%"
+    }
+    const topRightCss = {
+      float: "right",
+      width: "18%",
+      marginTop: "2%"
 
     }
+     const marginTop={
+            marginTop:"2%"
+        }
     return (
       <div>
-        <div class="row">
+        <div class="row" style={marginTop}>
           <Link to="/"> <img style={topIconCss} src={require('../assets/mind.png')}></img></Link>
-    {userSession.isUserSignedIn() ? ( <Link to="/myList"><img style={myListIconCss} src={require('../assets/man-user.png')}></img></Link>):null}
+         <div style={topRightCss}>
+             {userSession.isUserSignedIn() ? ( <Link to="/myList"><img style={myListIconCss} src={require('../assets/man-user.png')}></img></Link>):null}
 
+          {!userSession.isUserSignedIn() ? (
+            <button style={buttonCss} onClick={this.handleSignin}>
+              Login
+            </button>
+          ) : (
+            <img style={myListIconCss} onClick={this.handleSignOut} src={require('../assets/logout.png')}></img>
+          )}
+            </div>
         </div>
         <div><Header />
           <div class="container center " style={textCss}>
@@ -158,17 +179,6 @@ let loading=this.state.loading? <React.Fragment><div class="row">
                 <div class="col s6">H. Repeat steps E, F & G</div>
               </div>
 
-            </div>
-            <div style={paddingTop} lassName="center">
-          {!userSession.isUserSignedIn() ? (
-            <button style={buttonCss} class="center" onClick={this.handleSignin}>
-              Login with BlockStack
-            </button>
-          ) : (
-            <button style={buttonCss} class="center" onClick={this.handleSignOut}>
-              Logout
-            </button>
-          )}
             </div>
             <div  class="row">
               <br></br>

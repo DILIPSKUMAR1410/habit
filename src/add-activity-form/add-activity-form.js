@@ -76,7 +76,9 @@ class AddActivity extends React.Component {
             fontFamily:" 'Varela Round', sans-serif",
             color:'#cc0000',
             background:"transparent",
-            border:"1px solid black"
+            border:"1px solid black",
+            cursor: "pointer" 
+
           }
           const defaultOptions = {
             loop: true,
