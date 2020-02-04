@@ -3,6 +3,7 @@ import Header from '../common/header-page';
 import { Link } from 'react-router-dom';
 import Lottie from 'react-lottie';
 import animationData from '../assets/biking.json';
+import homeanimationData from '../assets/superman.json';
 import { UserSession, AppConfig } from "blockstack";
 
 const appConfig = new AppConfig();
@@ -38,6 +39,15 @@ class Home extends React.Component {
   }
 
   render() {
+    const homedefaultOptions = {
+      loop: true,
+      autoplay: true,
+      animationData: homeanimationData,
+      rendererSettings: {
+        preserveAspectRatio: 'xMidYMid slice'
+      }
+    }
+
 let loading=this.state.loading? <React.Fragment><div class="row">
 <Lottie options={defaultOptions}
         height={100}
@@ -100,6 +110,9 @@ let loading=this.state.loading? <React.Fragment><div class="row">
 
         <div><Header />
           <div class="container center " style={textCss}>
+            <Lottie options={homedefaultOptions}
+              height={600} width={600}
+            />
             <div class="row" >
               <div class="col s12"><p>Cultivating a habit is one of the most difficult things for humans to do. Mastering one is
         altogether a different ball game. Zero Tolerance helps you cultivate a habit, complete a task and
