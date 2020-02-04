@@ -88,7 +88,8 @@ let loading=this.state.loading? <React.Fragment><div class="row">
       color: '#cc0000',
       background: "transparent",
       fontSize: "30px",
-      border: "transparent"
+      border: "transparent",
+      cursor:'pointer'
     }
     const topIconCss = {
       float: "left",
