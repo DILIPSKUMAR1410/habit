@@ -68,19 +68,36 @@ let loading=this.state.loading? <React.Fragment><div class="row">
       fontFamily: " 'Varela Round', sans-serif",
       color: '#cc0000',
       background: "transparent",
-      border: "1px solid black"
+      border: "1px solid black",
+      fontSize: "20px"
     }
     const topIconCss = {
       float: "left",
-      width: '5%'
-
+      width: '5%',
+      marginTop: "1%"
+    }
+    const topRightCss = {
+      float: "right",
+      width: "18%",
+      marginTop: "2%"
     }
     return (
       <div>
         <div class="row">
           <Link to="/"> <img style={topIconCss} src={require('../assets/mind.png')}></img></Link>
-
+         <div style={topRightCss}>
+          {!userSession.isUserSignedIn() ? (
+            <button style={buttonCss} onClick={this.handleSignin}>
+              Login with BlockStack
+            </button>
+          ) : (
+            <button style={buttonCss} onClick={this.handleSignOut}>
+              Logout
+            </button>
+          )}
+            </div>
         </div>
+
         <div><Header />
           <div class="container center " style={textCss}>
             <div class="row" >
@@ -135,17 +152,6 @@ let loading=this.state.loading? <React.Fragment><div class="row">
                 <div class="col s6">H. Repeat steps E, F & G</div>
               </div>
 
-            </div>
-            <div className="center">
-          {!userSession.isUserSignedIn() ? (
-            <button style={buttonCss} class="center" onClick={this.handleSignin}>
-              Login with BlockStack
-            </button>
-          ) : (
-            <button style={buttonCss} class="center" onClick={this.handleSignOut}>
-              Logout
-            </button>
-          )}
             </div>
             <div class="row">
               <div class="col s6">
